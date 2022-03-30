@@ -1,5 +1,6 @@
 package com.kurdi.cartservice.controllers;
 
+import com.kurdi.cartservice.dto.CartItemDTO;
 import com.kurdi.cartservice.entities.Cart;
 import com.kurdi.cartservice.entities.CartItem;
 import com.kurdi.cartservice.repositories.CartsRepository;
@@ -25,10 +26,10 @@ public class CartsController {
     }
 
     @PostMapping()
-    public ResponseEntity<Cart> addToCart(@RequestBody CartItem cartItem)
+    public ResponseEntity<Cart> addToCart(@RequestBody CartItemDTO cartItemDTO)
     {
         Integer identity = 0;//TODO: get identity from token;
-        Cart cart = cartService.addToCart(identity,cartItem);
+        Cart cart = cartService.addToCart(identity,cartItemDTO);
         return new ResponseEntity<>(cart, HttpStatus.OK);
 
     }
