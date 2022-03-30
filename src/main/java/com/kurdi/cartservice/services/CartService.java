@@ -40,9 +40,8 @@ public class CartService {
                     .quantity(cartItemDTO.getQuantity())
                     .cart(getCart(identity))
                     .build();
-            cart.getItems().add(cartItem);
+            cartItemsRepository.save(cartItem);
         }
-        cartsRepository.save(cart);
         return cart;
     }
     @Transactional
