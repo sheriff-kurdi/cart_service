@@ -18,21 +18,21 @@ public class CartsController {
     @Autowired
     CartService cartService;
 
-    @GetMapping
+    @GetMapping("getCart")
     public ResponseEntity<Cart> getCart(){
-        Integer identity = 0;//TODO: get identity from token;
-        return new ResponseEntity<>(cartService.getCart(identity), HttpStatus.NOT_FOUND);
+        Integer identity = 1;//TODO: get identity from token;
+        return new ResponseEntity<>(cartService.getCart(identity), HttpStatus.OK);
     }
-    @PostMapping
+    @PostMapping("addToCart")
     public ResponseEntity<Cart> addToCart(@RequestBody CartItemDTO cartItemDTO){
-        Integer identity = 0;//TODO: get identity from token;
+        Integer identity = 1;//TODO: get identity from token;
         Cart cart = cartService.addToCart(identity,cartItemDTO);
         return new ResponseEntity<>(cart, HttpStatus.OK);
 
     }
-    @GetMapping
+    @GetMapping("clearCart")
     public ResponseEntity<Cart> clearCart(){
-        Integer identity = 0;//TODO: get identity from token;
+        Integer identity = 1;//TODO: get identity from token;
         return new ResponseEntity<>(cartService.clearCart(identity),HttpStatus.OK);
     }
 
