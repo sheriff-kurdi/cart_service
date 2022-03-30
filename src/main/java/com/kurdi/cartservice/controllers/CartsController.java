@@ -19,24 +19,19 @@ public class CartsController {
     CartService cartService;
 
     @GetMapping
-    public ResponseEntity<Cart> getCart()
-    {
+    public ResponseEntity<Cart> getCart(){
         Integer identity = 0;//TODO: get identity from token;
         return new ResponseEntity<>(cartService.getCart(identity), HttpStatus.NOT_FOUND);
     }
-
     @PostMapping
-    public ResponseEntity<Cart> addToCart(@RequestBody CartItemDTO cartItemDTO)
-    {
+    public ResponseEntity<Cart> addToCart(@RequestBody CartItemDTO cartItemDTO){
         Integer identity = 0;//TODO: get identity from token;
         Cart cart = cartService.addToCart(identity,cartItemDTO);
         return new ResponseEntity<>(cart, HttpStatus.OK);
 
     }
-
     @GetMapping
-    public ResponseEntity<Cart> clearCart()
-    {
+    public ResponseEntity<Cart> clearCart(){
         Integer identity = 0;//TODO: get identity from token;
         return new ResponseEntity<>(cartService.clearCart(identity),HttpStatus.OK);
     }
