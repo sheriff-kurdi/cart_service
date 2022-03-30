@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,7 +58,7 @@ public class CartService {
     }
     @Transactional
     public Cart clearCart(Integer identity){
-        cartItemsRepository.deleteAll(cartItemsRepository.findAll().stream().filter(i -> i.getCart().getIdentity() == identity).collect(Collectors.toList()));
-        return cartsRepository.findById(identity).get();
+        cartItemsRepository.deleteAll(cartItemsRepository.findAll().stream().filter(i -> Objects.equals(i.getCart().getIdentity(), identity)).collect(Collectors.toList()));
+        return getCart(identity);
     }
 }
