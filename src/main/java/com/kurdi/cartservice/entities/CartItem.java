@@ -2,10 +2,7 @@ package com.kurdi.cartservice.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kurdi.cartservice.entities.compositeKeys.CartItemId;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,6 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @Table(name = "cart_items")
+@ToString
 public class CartItem implements Serializable {
 
     @EmbeddedId
