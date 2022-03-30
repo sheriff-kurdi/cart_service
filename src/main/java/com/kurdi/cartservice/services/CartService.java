@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 @Service
 public class CartService {
@@ -57,9 +58,7 @@ public class CartService {
     }
     @Transactional
     public Cart clearCart(Integer identity){
-        Cart cart = getCart(identity);
-        cart.setItems(new HashSet<>());
-        cartsRepository.save(cart);
-        return cart;
+        cartItemsRepository.deleteAll(cartItemsRepository.findAll().stream().filter(i -> i.getCart().getIdentity() == identity).collect(Collectors.toList()));
+        return cartsRepository.findById(identity).get();
     }
 }
