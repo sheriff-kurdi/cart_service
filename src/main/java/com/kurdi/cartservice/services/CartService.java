@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 
 @Service
 public class CartService {
@@ -20,20 +21,23 @@ public class CartService {
     CartItemsRepository cartItemsRepository;
 
     @Transactional
+    public void updateCartItem(CartItemId cartItemId, int quantity)
+    {
+        //noinspection OptionalGetWithoutIsPresent
+        CartItem cartItem = cartItemsRepository.findById(cartItemId).get();
+        cartItem.setQuantity(cartItem.getQuantity() + quantity);
+        cartItemsRepository.save(cartItem);
+    }
+    @Transactional
     public Cart addToCart(Integer identity, CartItemDTO cartItemDTO)
     {
-
         Cart cart = getCart(identity);
-        CartItem cartItem;
-        if(cartItemsRepository.existsById(new CartItemId(identity, cartItemDTO.getSKU())))
-        {
-            //noinspection OptionalGetWithoutIsPresent
-            cartItem = cartItemsRepository.findById(new CartItemId(identity, cartItemDTO.getSKU())).get();
-            cartItem.setQuantity(cartItem.getQuantity() + cartItemDTO.getQuantity());
-            cartItemsRepository.save(cartItem);
+        if(cartItemsRepository.existsById(new CartItemId(identity, cartItemDTO.getSKU()))){
+            updateCartItem(new CartItemId(identity, cartItemDTO.getSKU()), cartItemDTO.getQuantity());
 
-        }else{
-            cartItem = CartItem.builder()
+        }
+        else{
+            CartItem cartItem = CartItem.builder()
                     .id(new CartItemId(identity, cartItemDTO.getSKU()))
                     .quantity(cartItemDTO.getQuantity())
                     .cart(getCart(identity))
@@ -41,7 +45,6 @@ public class CartService {
             cart.getItems().add(cartItem);
         }
         cartsRepository.save(cart);
-
         return cart;
     }
     @Transactional
@@ -54,6 +57,15 @@ public class CartService {
             cartsRepository.save(newCart);
         }
         cart = cartsRepository.getById(identity);
+        return cart;
+    }
+
+    @Transactional
+    public Cart clearCart(Integer identity)
+    {
+        Cart cart = getCart(identity);
+        cart.setItems(new HashSet<>());
+        cartsRepository.save(cart);
         return cart;
     }
 }

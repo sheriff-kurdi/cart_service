@@ -18,14 +18,14 @@ public class CartsController {
     @Autowired
     CartService cartService;
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<Cart> getCart()
     {
         Integer identity = 0;//TODO: get identity from token;
         return new ResponseEntity<>(cartService.getCart(identity), HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Cart> addToCart(@RequestBody CartItemDTO cartItemDTO)
     {
         Integer identity = 0;//TODO: get identity from token;
@@ -33,4 +33,13 @@ public class CartsController {
         return new ResponseEntity<>(cart, HttpStatus.OK);
 
     }
+
+    @GetMapping
+    public ResponseEntity<Cart> clearCart()
+    {
+        Integer identity = 0;//TODO: get identity from token;
+        return new ResponseEntity<>(cartService.clearCart(identity),HttpStatus.OK);
+    }
+
+
 }
