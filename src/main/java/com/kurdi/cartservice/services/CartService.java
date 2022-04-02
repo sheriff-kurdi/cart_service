@@ -54,7 +54,7 @@ public class CartService {
             cartsRepository.save(newCart);
         }
         cart = cartsRepository.getById(identity);
-        CartItemId c = cart.getItems().stream().findFirst().get().getId();
+        //CartItemId c = cart.getItems().stream().findFirst().get().getId();
         return cart;
     }
     @Transactional
