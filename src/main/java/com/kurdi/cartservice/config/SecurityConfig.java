@@ -29,7 +29,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers("/user")
                 .permitAll()
                 .mvcMatchers("/admin")
-                .hasAnyAuthority("admin");
+                .hasAnyAuthority("admin")
+                .mvcMatchers("/carts/**")
+                .authenticated();
 
 
     }
